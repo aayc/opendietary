@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif important!;
+}
+
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    color: white;
+    background: black;
+  }
+}
+
+h1 {
+  @apply text-5xl font-bold;
+}
+
+.clickable-text {
+  @apply text-blue-500 cursor-pointer;
+}
+
+.btn-primary {
+  @apply transition;
+  @apply duration-150;
+  @apply bg-blue-500;
+  @apply hover:bg-blue-700;
+  @apply text-white;
+  @apply font-bold;
+  @apply py-2;
+  @apply px-4;
+  @apply rounded;
+}
+
+.number-input-gray {
+  @apply bg-gray-50;
+  @apply rounded-lg;
+  @apply p-1;
+  @apply px-2;
+}
+
+.input-h-label {
+  @apply p-1;
+}
