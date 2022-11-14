@@ -12,6 +12,7 @@
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.8",
+    "chart.js": "^3.9.1",
     "lottie-react": "^2.3.1",
     "next": "13.0.3",
     "primeicons": "^6.0.1",
