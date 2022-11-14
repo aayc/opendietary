@@ -57,7 +57,7 @@ export default function LoginPage() {
               ></input>
               <br />
               <input
-                type="text"
+                type="password"
                 className="my-2 text-input-gray"
                 placeholder="Password"
                 value={password}
