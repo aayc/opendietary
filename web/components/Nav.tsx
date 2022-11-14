@@ -1,11 +1,11 @@
 export default function Nav() {
   return (
-    <div className="flex mt-4 px-8 justify-between">
+    <div className="flex mt-8 px-8 justify-between">
       <div>
         <h1>Open Dietary</h1>
       </div>
       <div>
-        <p>Log in</p>
+        <button className="btn-primary">Log in</button>
       </div>
     </div>
   );

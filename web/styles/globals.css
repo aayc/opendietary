@@ -20,7 +20,13 @@ body {
 }
 
 h1 {
-  @apply text-5xl font-bold;
+  @apply text-5xl;
+  @apply font-bold;
+}
+
+h3 {
+  @apply text-2xl;
+  @apply font-bold;
 }
 
 .clickable-text {
@@ -48,4 +54,9 @@ h1 {
 
 .input-h-label {
   @apply p-1;
+}
+
+.checkbox-lg {
+  @apply w-8;
+  @apply h-8;
 }
