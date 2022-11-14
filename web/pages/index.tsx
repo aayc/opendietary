@@ -13,7 +13,7 @@ import LineChartDemo from "../widgets/LineChart";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
-  const [plan, setPlan] = useState({ hey: 3 });
+  const [plan, setPlan] = useState(null);
 
   const requestPlanForParameters = (parameters: DietParameters) => {
     if (!loading) {
@@ -74,6 +74,8 @@ export default function Home() {
                 <div className="flex justify-center mb-4">
                   <h2>Today's plan</h2>
                 </div>
+                <h3>Your meals for today</h3>
+                <p>Imagine some carousel with cards</p>
                 <h3>Basic nutrition breakdown</h3>
                 <div className="flex mt-6 mb-10 justify-between">
                   <PieChartDemo></PieChartDemo>
@@ -88,7 +90,6 @@ export default function Home() {
                 <div className="mt-6 mb-10">
                   <LineChartDemo></LineChartDemo>
                 </div>
-                <h3>Your meals for today</h3>
               </div>
             )}
           </div>
