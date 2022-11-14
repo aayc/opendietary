@@ -1,11 +1,10 @@
 // Use modular imports of firebase to add auth
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, User } from "firebase/auth";
-import { getDatabase } from "firebase/database";
+import { getAuth } from "firebase/auth";
+import { getDatabase, ref, set } from "firebase/database";
 
-type GlobalState = {
-    user: User | null;
+type UserProfile = {
     firstName: string | null;
     lastName: string | null;
 }
@@ -23,16 +22,16 @@ const firebaseConfig = {
   measurementId: "G-P9RKK6LZXX"
 };
 
-const global: GlobalState = {
-    user: null,
-    firstName: null,
-    lastName: null,
-}
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 //const analytics = getAnalytics(app);
 const auth = getAuth();
 const db = getDatabase();
 
-export { auth, db };
+async function updateUserProfile(update: Partial<UserProfile>) {
+    if (auth.currentUser) {
+        await set(ref(db, `users/${auth.currentUser.uid}/profile`), update);
+    }
+}
+
+export { auth, db, updateUserProfile };

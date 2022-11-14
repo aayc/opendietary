@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import Nav from "../components/Nav";
-import { auth } from "../utils/firebase";
+import { auth, updateUserProfile } from "../utils/firebase";
 import Spinner from "../widgets/Spinner";
 
 export default function SignUpPage() {
@@ -18,19 +18,21 @@ export default function SignUpPage() {
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
 
-  const signUp = () => {
+  const signUp = async () => {
     if (email == "" || password == "" || confirmPassword == "") {
       alert("Please enter your email and password");
     } else if (password != confirmPassword) {
       alert("Passwords do not match");
     } else if (!loading) {
-      createUserWithEmailAndPassword(email, password);
+      await createUserWithEmailAndPassword(email, password);
     }
   };
 
   useEffect(() => {
     if (user) {
-      router.push("/");
+      updateUserProfile({ firstName, lastName }).then(() => {
+        router.push("/");
+      });
     }
     if (error) {
       alert("Error signing up: " + error.message);
@@ -84,11 +86,19 @@ export default function SignUpPage() {
               ></input>
               <br />
               <input
-                type="text"
+                type="password"
                 className="my-2 text-input-gray"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+              ></input>
+              <br />
+              <input
+                type="password"
+                className="my-2 text-input-gray"
+                placeholder="Confirm password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
               ></input>
             </div>
             <button className="btn-primary mt-4" onClick={signUp}>
