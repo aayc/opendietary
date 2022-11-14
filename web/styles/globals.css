@@ -57,6 +57,22 @@ h3 {
   @apply px-2;
 }
 
+.text-input-gray {
+  @apply bg-gray-50;
+  @apply rounded-lg;
+  @apply p-2;
+  @apply px-4;
+  @apply text-lg;
+}
+
+.link-text {
+  @apply transition;
+  @apply duration-150;
+  @apply text-blue-600;
+  @apply hover:text-blue-800;
+  @apply cursor-pointer;
+}
+
 .input-h-label {
   @apply p-1;
 }
