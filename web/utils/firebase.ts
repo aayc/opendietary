@@ -30,7 +30,7 @@ const db = getDatabase();
 
 async function updateUserProfile(update: Partial<UserProfile>) {
     if (auth.currentUser) {
-        await set(ref(db, `users/${auth.currentUser.uid}/profile`), update);
+        await set(ref(db, `profiles/${auth.currentUser.uid}`), update);
     }
 }
 

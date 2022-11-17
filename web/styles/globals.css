@@ -41,10 +41,35 @@ h3 {
 .btn-primary {
   @apply transition;
   @apply duration-150;
+  @apply ease-in-out;
   @apply bg-blue-500;
   @apply hover:bg-blue-700;
   @apply text-white;
   @apply font-bold;
+  @apply py-2;
+  @apply px-4;
+  @apply rounded;
+}
+
+.btn-danger {
+  @apply transition;
+  @apply duration-150;
+  @apply ease-in-out;
+  @apply bg-red-500;
+  @apply hover:bg-red-700;
+  @apply text-white;
+  @apply font-bold;
+  @apply py-2;
+  @apply px-4;
+  @apply rounded;
+}
+
+.btn-disabled {
+  @apply transition;
+  @apply duration-150;
+  @apply ease-in-out;
+  @apply bg-gray-600;
+  @apply text-white;
   @apply py-2;
   @apply px-4;
   @apply rounded;
@@ -65,9 +90,29 @@ h3 {
   @apply text-lg;
 }
 
+.dropdown-option {
+  @apply transition;
+  @apply duration-150;
+  @apply ease-in-out;
+  @apply text-sm;
+  @apply px-4;
+  @apply cursor-pointer;
+  @apply hover:bg-blue-500;
+  @apply hover:text-white;
+  @apply font-semibold;
+}
+
+.sidebar-option {
+  @apply transition;
+  @apply duration-200;
+  @apply ease-in-out; 
+  @apply cursor-pointer 
+}
+
 .link-text {
   @apply transition;
   @apply duration-150;
+  @apply ease-in-out;
   @apply text-blue-600;
   @apply hover:text-blue-800;
   @apply cursor-pointer;

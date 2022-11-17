@@ -56,7 +56,7 @@ export default function ParameterPlanningForm(props: ParameterPlanningFormProps)
           <input
             type="number"
             className="ml-2 number-input-gray"
-            value={protein}
+            value={numMeals}
             onChange={(e: any) => setNumMeals(parseInt(e.target.value))}
           />
         </div>

@@ -1,30 +1,31 @@
 import Head from "next/head";
 import Nav from "../components/Nav";
 import { useEffect, useState } from "react";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 import Spinner from "../widgets/Spinner";
 import { auth } from "../utils/firebase";
 import { useRouter } from "next/router";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [signInWithEmailAndPassword, user, loading, error] =
-    useSignInWithEmailAndPassword(auth);
+  const [user, loading, error] = useAuthState(auth);
   const router = useRouter();
 
   const signIn = () => {
     if (email == "" || password == "") {
       alert("Please enter your email and password");
     } else if (!loading) {
-      signInWithEmailAndPassword(email, password);
+      signInWithEmailAndPassword(auth, email, password);
     }
   };
 
   useEffect(() => {
     if (user) {
-      router.push("/");
+      const to = router.query.to ?? "";
+      router.push("/" + (to as string));
     }
     if (error) {
       alert("Error signing in: " + error.message);
@@ -40,7 +41,7 @@ export default function LoginPage() {
       </Head>
 
       <div>
-        <Nav></Nav>
+        <Nav hideLogin={true}></Nav>
 
         <div className="card m-auto max-w-lg rounded-lg shadow-lg p-8 mt-12">
           <div className="flex justify-center">
