@@ -24,14 +24,18 @@ function ProfileInfoTab(props: { user: User }) {
 
   const updateFirstName = (e: any) => {
     setFirstName(e.target.value);
-    if (!hasEdited) {
+    if (e.target.value == firstNameSnap?.val() && lastName == lastNameSnap?.val()) {
+      setHasEdited(false);
+    } else if (!hasEdited) {
       setHasEdited(true);
     }
   };
 
   const updateLastName = (e: any) => {
     setLastName(e.target.value);
-    if (!hasEdited) {
+    if (e.target.value == lastNameSnap?.val() && firstName == firstNameSnap?.val()) {
+      setHasEdited(false);
+    } else if (!hasEdited) {
       setHasEdited(true);
     }
   };
@@ -81,10 +85,11 @@ function ProfileInfoTab(props: { user: User }) {
       <div>
         <button
           className={`mt-8 ${hasEdited ? "btn-primary" : "btn-disabled"}`}
+          disabled={!hasEdited}
           onClick={save}
         >
           {loading && <Spinner className="inline mr-2" size={15}></Spinner>}
-          {!hasEdited ? "Up to date" : "Save"}
+          {!hasEdited ? "Up to date" : "Save changes"}
         </button>
       </div>
     </div>

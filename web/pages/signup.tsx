@@ -16,8 +16,7 @@ export default function SignUpPage() {
   const [lastName, setLastName] = useState("");
   const router = useRouter();
 
-  const [createUserWithEmailAndPassword, user, loading, error] =
-    useCreateUserWithEmailAndPassword(auth);
+  const [createUserWithEmailAndPassword, user, loading, error] = useCreateUserWithEmailAndPassword(auth);
 
   const signUp = async () => {
     if (email == "" || password == "" || confirmPassword == "") {
@@ -46,61 +45,27 @@ export default function SignUpPage() {
         <div className="flex justify-center">
           <div>
             <h2>Sign up for a free account</h2>
-            <p className="text-center text-gray-600 mt-2">
-              Open Dietary is free and always will be.
-            </p>
+            <p className="text-center text-gray-600 mt-2">Open Dietary is free and always will be.</p>
           </div>
         </div>
         <div className="flex flex-col mt-2">
           <div className="mt-4 m-auto">
-            <input
-              type="text"
-              className="text-input-gray"
-              value={firstName}
-              placeholder="First Name"
-              onChange={(e) => setFirstName(e.target.value)}
-            ></input>
+            <input type="text" className="text-input-gray" value={firstName} placeholder="First Name" onChange={(e) => setFirstName(e.target.value)}></input>
             <br />
-            <input
-              type="text"
-              className="my-2 text-input-gray"
-              value={lastName}
-              placeholder="Last Name"
-              onChange={(e) => setLastName(e.target.value)}
-            ></input>
+            <input type="text" className="my-2 text-input-gray" value={lastName} placeholder="Last Name" onChange={(e) => setLastName(e.target.value)}></input>
             <br />
-            <input
-              type="text"
-              className="my-2 text-input-gray"
-              value={email}
-              placeholder="Email"
-              onChange={(e) => setEmail(e.target.value)}
-            ></input>
+            <input type="text" className="my-2 text-input-gray" value={email} placeholder="Email" onChange={(e) => setEmail(e.target.value)}></input>
             <br />
-            <input
-              type="password"
-              className="my-2 text-input-gray"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            ></input>
+            <input type="password" className="my-2 text-input-gray" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}></input>
             <br />
-            <input
-              type="password"
-              className="my-2 text-input-gray"
-              placeholder="Confirm password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            ></input>
+            <input type="password" className="my-2 text-input-gray" placeholder="Confirm password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}></input>
           </div>
           <button className="btn-primary mt-4" onClick={signUp}>
             {loading && <Spinner className="inline mr-2" size={15}></Spinner>}
             Sign up
           </button>
           <Link href="/login">
-            <p className="link-text mt-4 text-sm text-center">
-              Have an account already? Sign in here.
-            </p>
+            <p className="link-text mt-4 text-sm text-center">Have an account already? Sign in here.</p>
           </Link>
         </div>
       </div>
