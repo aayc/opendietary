@@ -51,6 +51,19 @@ h3 {
   @apply rounded;
 }
 
+.btn-success {
+  @apply transition;
+  @apply duration-150;
+  @apply ease-in-out;
+  @apply bg-green-500;
+  @apply hover:bg-green-700;
+  @apply text-white;
+  @apply font-bold;
+  @apply py-2;
+  @apply px-4;
+  @apply rounded;
+}
+
 .btn-danger {
   @apply transition;
   @apply duration-150;
@@ -73,6 +86,13 @@ h3 {
   @apply py-2;
   @apply px-4;
   @apply rounded;
+}
+
+.clickable-icon {
+  @apply transition;
+  @apply duration-300;
+  @apply ease-in-out;
+  @apply cursor-pointer;
 }
 
 .number-input-gray {

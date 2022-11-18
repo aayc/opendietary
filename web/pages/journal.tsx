@@ -1,19 +1,22 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { PlusCircle, MinusCircle, ChevronUp, ChevronDown } from "lucide-react";
 import Boilerplate from "../components/Boilerplate";
+import { Toast } from 'primereact/toast';
 import { auth } from "../utils/firebase";
 import { NutritionItemResult, NutritionSearchResult, searchFood } from "../utils/nutritionix";
 import SearchBar from "../widgets/SearchBar";
 import Spinner from "../widgets/Spinner";
 
 export default function Pantry() {
+  const toast = useRef<any>(null);
   const [user, loading, error] = useAuthState(auth);
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchResults, setSearchResults] = useState<NutritionSearchResult[] | undefined | null>([]);
   const [initialSearched, setInitialSearched] = useState(false);
   const [quantities, setQuantities] = useState<number[]>([]);
+  const [added, setAdded] = useState<boolean[]>([]);
   const [history, setHistory] = useState<NutritionItemResult[] | null>([]);
   const [resultLimit, setResultLimit] = useState(10);
   const [resultsCollapsed, setResultsCollapsed] = useState(false);
@@ -41,6 +44,7 @@ export default function Pantry() {
           return 0;
         }
       });
+      setAdded(results?.map(() => false) || []);
       setQuantities(results?.map(() => 1) || []);
       setSearchLoading(false);
       setInitialSearched(false);
@@ -49,17 +53,27 @@ export default function Pantry() {
   };
 
   const updateQuantity = (index: number, value: number) => {
-    alert("update")
-    if (value >= 1) {
+    if (value >= 1 && !added[index]) {
       const newQuantities = [...quantities];
       newQuantities[index] = value;
-      alert("update");
       setQuantities(newQuantities);
     }
   };
 
+  const addOrRemoveItem = (index: number) => {
+    const newAdded = [...added];
+    newAdded[index] = !newAdded[index];
+    if (newAdded[index]) {
+      toast?.current?.show({severity:'success', summary: `Added ${quantities[index]} ${searchResults![index].foodName}`, detail:'', life: 3000});
+    } else {
+      toast?.current?.show({severity:'info', summary: `Removed ${quantities[index]} ${searchResults![index].foodName}`, detail:'', life: 3000});
+    }
+    setAdded(newAdded);
+  }
+
   return (
     <Boilerplate title="Journal">
+      <Toast ref={toast} position="bottom-left" />
       {!loading && user && (
         <div className="m-auto max-w-3xl p-8 mt-12">
           <h2>Journal</h2>
@@ -94,13 +108,14 @@ export default function Pantry() {
                         color={quantities[index] <= 1 ? "gray" : "black"}
                         onClick={() => updateQuantity(index, quantities[index] - 1)}
                       ></MinusCircle>
-                      {quantities[index]}
-                      <span onClick={() => updateQuantity(index, quantities[index] - 1)}>
-                        <PlusCircle size={18} className="clickable-icon mt-1 mx-2"></PlusCircle>
-                      </span>
+                      <div className="w-2 flex justify-center">
+                      {quantities[index]}</div>
+                        <PlusCircle size={18} className="clickable-icon mt-1 mx-2"
+                        onClick={() => updateQuantity(index, quantities[index] + 1)}
+                        ></PlusCircle>
                     </div>
                     {/* TODO make this a dropdown button so you can go back in time */}
-                    <button className="btn-primary h-12">Add {quantities[index]}</button>
+                    <button className={`h-12 ${added[index] ? 'btn-danger' : 'btn-primary'}`} onClick={() => addOrRemoveItem(index)}>{added[index] ? 'Undo' : 'Add'}</button>
                   </div>
                 </div>
               ))}
@@ -118,7 +133,7 @@ export default function Pantry() {
               <p>API Error</p>
             </div>
           )}
-          {(searchResults === null || searchResults?.length == 0) && !initialSearched && !searchLoading && (
+          {(searchResults === null || searchResults?.length == 0) && initialSearched && !searchLoading && (
             <div className="mt-8 flex justify-center">
               <p>No results found.</p>
             </div>
