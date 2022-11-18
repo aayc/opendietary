@@ -1,15 +1,13 @@
-import { config } from "dotenv";
 import axios from "axios";
-config();
 
-type Nutrition = {
-  brand_id: string;
-  item_id: string;
-  food_name: string;
-  brand_name: string;
-  serving_qty: number;
-  serving_unit: string;
-  serving_weight_grams: number;
+type NutritionItemResult = {
+  brandName: string | undefined;
+  brandId: string | undefined;
+  itemId: string | undefined;
+  foodName: string;
+  servingQuantity: number;
+  servingUnit: string;
+  servingWeightGrams: number;
   calories: number;
   fat: number;
   saturated_fat: number;
@@ -20,18 +18,30 @@ type Nutrition = {
   sugar: number;
   protein: number;
   potassium: number;
-  updated_at: string;
+  updatedAt: string;
 };
 
-function parseNutritionData(response: any) {
+type NutritionSearchResult = {
+  brandName: string | undefined;
+  brandId: string | undefined;
+  fullName: string | undefined;
+  foodName: string;
+  calories: number | undefined;
+  itemId: string | undefined;
+  photo: { thumb: string };
+  servingQuantity: number;
+  servingUnit: string;
+};
+
+function parseNutritionItem(response: any): NutritionItemResult {
   return {
-    brand_id: response.nix_brand_id,
-    item_id: response.nix_item_id,
-    food_name: response.food_name,
-    brand_name: response.brand_name,
-    serving_qty: response.serving_qty,
-    serving_unit: response.serving_unit,
-    serving_weight_grams: response.serving_weight_grams,
+    brandId: response.nix_brand_id,
+    itemId: response.nix_item_id,
+    foodName: response.food_name,
+    brandName: response.brand_name,
+    servingQuantity: response.serving_qty,
+    servingUnit: response.serving_unit,
+    servingWeightGrams: response.serving_weight_grams,
     calories: response.nf_calories,
     fat: response.nf_total_fat,
     saturated_fat: response.nf_saturated_fat,
@@ -42,61 +52,69 @@ function parseNutritionData(response: any) {
     sugar: response.nf_sugars,
     protein: response.nf_protein,
     potassium: response.nf_potassium,
-    updated_at: response.updated_at,
+    updatedAt: response.updated_at,
   };
 }
 
-async function getNutritionByUPC(upc: string) {
-  //axios.get('https://trackapi.nutritionix.com/v2/search/instant?query=beans', {
+function parseNutritionSummary(response: any): NutritionSearchResult {
+  return {
+    brandName: response.brand_name,
+    fullName: response.brand_name_item_name,
+    foodName: response.food_name,
+    calories: response.nf_calories,
+    brandId: response.nix_brand_id,
+    itemId: response.nix_item_id,
+    photo: response.photo,
+    servingQuantity: response.serving_qty,
+    servingUnit: response.serving_unit,
+  };
+}
+
+const nutritionIxHeaders = {
+  headers: {
+    "x-app-id": process.env.NEXT_PUBLIC_NUTRITIONIX_APP_ID,
+    "x-app-key": process.env.NEXT_PUBLIC_NUTRITIONIX_API_KEY,
+  },
+};
+
+async function getNutritionByUPC(upc: string): Promise<NutritionItemResult | null | undefined> {
   try {
-    const response = await axios.get(
-      `https://trackapi.nutritionix.com/v2/search/item?upc=${upc}`,
-      {
-        headers: {
-          "x-app-id": process.env.NUTRITIONIX_APP_ID,
-          "x-app-key": process.env.NUTRITIONIX_API_KEY,
-        },
-      }
-    );
+    // TODO look up cached value in firestore using query where upc = upc
+    const response = await axios.get(`https://trackapi.nutritionix.com/v2/search/item?upc=${upc}`, nutritionIxHeaders);
     const results = response.data["foods"];
-    return (results.length > 0) ? parseNutritionData(results[0]) : null;
+    return results.length > 0 ? parseNutritionItem(results[0]) : null;
   } catch (err) {
     console.log("API Error: " + err);
     return undefined;
   }
 }
 
-async function getNutritionByItemId(itemId: string) {
+async function getNutritionByItemId(itemId: string): Promise<NutritionItemResult | null | undefined> {
   try {
-    const response = await axios.get(
-      `https://trackapi.nutritionix.com/v2/search/item?nix_item_id=${itemId}`,
-      {
-        headers: {
-          "x-app-id": process.env.NUTRITIONIX_APP_ID,
-          "x-app-key": process.env.NUTRITIONIX_API_KEY,
-        },
-      }
-    );
+    const response = await axios.get(`https://trackapi.nutritionix.com/v2/search/item?nix_item_id=${itemId}`, nutritionIxHeaders);
     const results = response.data["foods"];
-    return (results.length > 0) ? parseNutritionData(results[0]) : null;
+    return results.length > 0 ? parseNutritionItem(results[0]) : null;
   } catch (err) {
     console.log("API Error: " + err);
     return undefined;
   }
 }
 
-async function searchFood(query: string) {
+async function searchFood(query: string): Promise<NutritionSearchResult[] | null | undefined> {
   try {
-    const response = await axios.get(
-      `https://trackapi.nutritionix.com/v2/search/instant?query=${query}`,
-      {
-        headers: {
-          "x-app-id": process.env.NUTRITIONIX_APP_ID,
-          "x-app-key": process.env.NUTRITIONIX_API_KEY,
-        },
+    const response = await axios.get(`https://trackapi.nutritionix.com/v2/search/instant?query=${query}`, nutritionIxHeaders);
+    const results = [];
+    if (response.data["common"]) {
+      for (const item of response.data["common"]) {
+        results.push(parseNutritionSummary(item));
       }
-    );
-    return response.data["common"];
+    }
+    if (response.data["branded"]) {
+      for (const item of response.data["branded"]) {
+        results.push(parseNutritionSummary(item));
+      }
+    }
+    return results
   } catch (err) {
     console.log("API Error: " + err);
     return undefined;
@@ -104,4 +122,4 @@ async function searchFood(query: string) {
 }
 
 export { getNutritionByUPC, getNutritionByItemId, searchFood };
-export type { Nutrition };
+export type { NutritionItemResult, NutritionSearchResult };

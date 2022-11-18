@@ -67,6 +67,9 @@ export default function Nav(props: NavProps) {
                   <p className="dropdown-option pt-2 pb-2" onClick={() => goTo("trends")}>
                     Trends
                   </p>
+                  <p className="dropdown-option pt-2 pb-2" onClick={() => goTo("journal")}>
+                    Journal
+                  </p>
                   <p className="dropdown-option pt-2 pb-2" onClick={() => goTo("pantry")}>
                     Pantry
                   </p>

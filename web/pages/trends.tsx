@@ -10,6 +10,9 @@ export default function Trends() {
   const [user, loading, error] = useAuthState(auth);
   const router = useRouter();
 
+  // Download the entire history of the person from rtdb
+  // 
+
   useEffect(() => {
     if (!user || error) {
       router.push("/login?to=trends");

@@ -87,7 +87,6 @@ h3 {
   @apply rounded-lg;
   @apply p-2;
   @apply px-4;
-  @apply text-lg;
 }
 
 .dropdown-option {
