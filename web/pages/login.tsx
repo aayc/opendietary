@@ -22,6 +22,12 @@ export default function LoginPage() {
     }
   };
 
+  const signInIfPressEnter = (e: any) => {
+    if (e.key == "Enter") {
+      signIn();
+    }
+  };
+
   useEffect(() => {
     if (user) {
       const to = router.query.to ?? "";
@@ -49,9 +55,9 @@ export default function LoginPage() {
           </div>
           <div className="flex flex-col">
             <div className="mt-4 m-auto">
-              <input type="text" className="text-input-gray" value={email} placeholder="Email" onChange={(e) => setEmail(e.target.value)}></input>
+              <input type="text" className="text-input-gray" value={email} placeholder="Email" onChange={(e) => setEmail(e.target.value)} onKeyDown={signInIfPressEnter}></input>
               <br />
-              <input type="password" className="my-2 text-input-gray" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}></input>
+              <input type="password" className="my-2 text-input-gray" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} onKeyDown={signInIfPressEnter}></input>
             </div>
             <button className="btn-primary mt-4" onClick={signIn}>
               {loading && <Spinner className="inline mr-2" size={15}></Spinner>}

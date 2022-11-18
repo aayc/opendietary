@@ -28,6 +28,12 @@ export default function SignUpPage() {
     }
   };
 
+  const signUpIfPressEnter = (e: any) => {
+    if (e.key == "Enter") {
+      signUp();
+    }
+  };
+
   useEffect(() => {
     if (user) {
       updateUserProfile({ firstName, lastName }).then(() => {
@@ -58,7 +64,7 @@ export default function SignUpPage() {
             <br />
             <input type="password" className="my-2 text-input-gray" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}></input>
             <br />
-            <input type="password" className="my-2 text-input-gray" placeholder="Confirm password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}></input>
+            <input type="password" className="my-2 text-input-gray" placeholder="Confirm password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} onKeyDown={signUpIfPressEnter}></input>
           </div>
           <button className="btn-primary mt-4" onClick={signUp}>
             {loading && <Spinner className="inline mr-2" size={15}></Spinner>}

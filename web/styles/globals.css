@@ -141,6 +141,10 @@ h3 {
   @apply p-1;
 }
 
+.force-hidden {
+  display: none !important;
+}
+
 .checkbox-lg {
   @apply w-8;
   @apply h-8;

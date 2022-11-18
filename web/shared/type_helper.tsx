@@ -1,3 +1,15 @@
+import { NutritionItemResult } from "../utils/nutritionix";
+
+type JournalHistory = {
+    [key: string]: HistoryItem
+}
+
+type HistoryItem = {
+    tracking_date: string;
+    date: string;
+    nutrition: NutritionItemResult;
+    quantity: number;
+}
 
 type DietParameters = {
   protein: number;
@@ -29,4 +41,4 @@ type MealItem = {
     carbs: number;
 }
 
-export type { DietParameters, DailyDietPlan, Meal, MealItem }
+export type { DietParameters, DailyDietPlan, Meal, MealItem, JournalHistory, HistoryItem }
