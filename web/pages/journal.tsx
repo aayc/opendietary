@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { PlusCircle, MinusCircle } from "lucide-react";
+import { PlusCircle, MinusCircle, ChevronUp, ChevronDown } from "lucide-react";
 import Boilerplate from "../components/Boilerplate";
 import { auth } from "../utils/firebase";
 import { NutritionItemResult, NutritionSearchResult, searchFood } from "../utils/nutritionix";
@@ -16,6 +16,7 @@ export default function Pantry() {
   const [quantities, setQuantities] = useState<number[]>([]);
   const [history, setHistory] = useState<NutritionItemResult[] | null>([]);
   const [resultLimit, setResultLimit] = useState(10);
+  const [resultsCollapsed, setResultsCollapsed] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -48,10 +49,11 @@ export default function Pantry() {
   };
 
   const updateQuantity = (index: number, value: number) => {
+    alert("update")
     if (value >= 1) {
       const newQuantities = [...quantities];
       newQuantities[index] = value;
-      alert("update")
+      alert("update");
       setQuantities(newQuantities);
     }
   };
@@ -71,14 +73,17 @@ export default function Pantry() {
           )}
           {searchResults && !searchLoading && searchResults.length > 0 && (
             <div className="mt-4">
-              <h3>Results</h3>
-              {searchResults.slice(0, resultLimit).map((result, index) => (
+              <div className="flex">
+                <h3>Results ({searchResults.length})</h3>
+                <ChevronUp className={`transition duration-200 mt-1 ml-2 ${resultsCollapsed ? '' : 'rotate-180'}`} onClick={() => setResultsCollapsed(!resultsCollapsed)}></ChevronUp>
+              </div>
+              {!resultsCollapsed && searchResults.slice(0, resultLimit).map((result, index) => (
                 <div className="my-6 flex justify-between">
                   <div className="flex">
                     <img src={result.photo.thumb} style={{ maxWidth: 100, maxHeight: 100 }}></img>
                     <div className="max-w-sm">
-                    <p className="mx-4">{result.fullName || result.foodName}</p>
-                    <p className="mt-2 mx-4 text-gray-500 text-sm">Added last week</p>
+                      <p className="mx-4">{result.fullName || result.foodName}</p>
+                      <p className="mt-2 mx-4 text-gray-500 text-sm">Added last week</p>
                     </div>
                   </div>
                   <div className="flex">
@@ -91,14 +96,15 @@ export default function Pantry() {
                       ></MinusCircle>
                       {quantities[index]}
                       <span onClick={() => updateQuantity(index, quantities[index] - 1)}>
-                      <PlusCircle size={18} className="clickable-icon mt-1 mx-2" ></PlusCircle></span>
+                        <PlusCircle size={18} className="clickable-icon mt-1 mx-2"></PlusCircle>
+                      </span>
                     </div>
                     {/* TODO make this a dropdown button so you can go back in time */}
                     <button className="btn-primary h-12">Add {quantities[index]}</button>
                   </div>
                 </div>
               ))}
-              {searchResults.length > resultLimit && (
+              {!resultsCollapsed && searchResults.length > resultLimit && (
                 <div className="mt-2 flex justify-center w-full">
                   <p className="link-text" onClick={() => setResultLimit(resultLimit + 10)}>
                     Show more
