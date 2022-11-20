@@ -26,7 +26,8 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-firebase-hooks": "^5.1.0",
-    "typescript": "4.8.4"
+    "typescript": "4.8.4",
+    "use-onclickoutside": "^0.4.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",

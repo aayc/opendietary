@@ -2,11 +2,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronUp, Edit, MinusCircle, PlusCircle } from "lucide-react";
 import { Calendar } from "primereact/calendar";
 import moment from "moment";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { JournalHistory } from "../shared/type_helper";
 import { NutritionSearchResult, searchFood } from "../utils/nutritionix";
 import SearchBar from "../widgets/SearchBar";
 import Spinner from "../widgets/Spinner";
+import useOnClickOutside from "use-onclickoutside";
 
 type FoodSearchProps = {
   history?: JournalHistory;
@@ -14,6 +15,9 @@ type FoodSearchProps = {
   onAdd: (item: NutritionSearchResult, quantity: number, date: Date) => Promise<string | undefined>; // push key
   onUndo: (pushKey: string) => Promise<boolean>;
 };
+
+// TODO search meal cards
+// TODO enter details manually (and offer to save as meal card)
 
 export default function FoodSearch(props: FoodSearchProps) {
   const [date, setDate] = useState(new Date());
@@ -27,6 +31,9 @@ export default function FoodSearch(props: FoodSearchProps) {
   const [undoTracking, setUndoTracking] = useState<{ [key: number]: string }>({});
   const [resultLimit, setResultLimit] = useState(10);
   const [resultsCollapsed, setResultsCollapsed] = useState(false);
+  const calendarRef = useRef<any>(null);
+
+  useOnClickOutside(calendarRef, () => setShowCalendar(false))
 
   const onSearch = async (query: string) => {
     if (query.length > 0) {
@@ -103,12 +110,12 @@ export default function FoodSearch(props: FoodSearchProps) {
                 onClick={() => setResultsCollapsed(!resultsCollapsed)}
               ></ChevronUp>
             </div>
-            <div className="relative">
+            <div className="relative" ref={calendarRef}>
               <div
                 className={`transition duration-200 ease-in-out delay-150 cursor-pointer flex ${showCalendar ? "text-blue-500" : "hover:text-blue-500"}`}
                 onClick={() => setShowCalendar(!showCalendar)}
               >
-                <p className="font-semibold">{moment(date).format("MMM D, YYYY")}</p> <Edit size={18} className="mt-1 ml-2"></Edit>
+                <p className="font-semibold">Recording for {moment(date).format("MMM D, YYYY")}</p> <Edit size={18} className="mt-1 ml-2"></Edit>
               </div>
               <AnimatePresence>
                 {showCalendar && (

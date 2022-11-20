@@ -9,6 +9,7 @@ import { ref } from "firebase/database";
 import { useObject } from "react-firebase-hooks/database";
 import { JournalHistory } from "../shared/type_helper";
 import FoodSearch from "../components/FoodSearch";
+import HistoryTable from "../components/HistoryTable";
 
 export default function Journal() {
   const toast = useRef<any>(null);
@@ -73,8 +74,8 @@ export default function Journal() {
           <h2>Journal</h2>
           <FoodSearch className="mt-4" onAdd={addItemToHistory}  onUndo={removeItemFromHistory}></FoodSearch>
           <div className="mt-8">
-            <h3>History</h3>
-            <p>{JSON.stringify(history)}</p>
+            <h3>Your History</h3>
+            <HistoryTable className="mt-6" history={history} />
           </div>
         </div>
       )}
