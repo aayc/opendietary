@@ -45,7 +45,7 @@ export default function Dropdown(props: DropdownProps) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="absolute bg-white border shadow-lg rounded-lg mt-2"
+              className="absolute z-40 bg-white border shadow-lg rounded-lg mt-2"
             >
               {props.options?.map((option, index) => (
                 <p

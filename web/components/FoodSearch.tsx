@@ -17,6 +17,7 @@ type FoodSearchProps = {
 };
 
 // TODO search meal cards
+// TODO break down search by branded, common, meals, restaurants
 // TODO enter details manually (and offer to save as meal card)
 
 export default function FoodSearch(props: FoodSearchProps) {

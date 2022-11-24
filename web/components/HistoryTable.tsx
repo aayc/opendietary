@@ -8,6 +8,8 @@ type HistoryTableProps = {
   history: JournalHistory;
 };
 
+// tODO: Allow time range
+
 export default function HistoryTable(props: HistoryTableProps) {
   const timeOptions = ["Today", "This week", "This month", "This year"].map((label) => ({ label, value: label }));
   const sortOptions = ["Time", "Calories", "Protein", "Carbs", "Fat"].map((label) => ({ label: "Sort by " + label.toLowerCase(), value: label.toLowerCase() }));

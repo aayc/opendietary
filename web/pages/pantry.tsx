@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Boilerplate from "../components/Boilerplate";
 import { auth } from "../utils/firebase";
-import PieChartDemo from "../widgets/PieChart";
+import PieChart from "../widgets/PieChart";
 import SearchBar from "../widgets/SearchBar";
 
 export default function Pantry() {
@@ -31,8 +31,8 @@ export default function Pantry() {
           <div className="mt-8">
             <h3>Summary</h3>
             <div className="flex w-3/4">
-            <PieChartDemo></PieChartDemo>
-</div>
+              <PieChart data={[50, 50, 50]} labels={["Carbs", "Fat", "Protein"]}></PieChart>
+            </div>
           </div>
           <div className="mt-8">
             <h3>Ingredients</h3>

@@ -8,9 +8,10 @@ import ParameterPlanningForm, {
 import Nav from "../components/Nav";
 import walkingAvocado from "../public/lottie/walking-avocado.json";
 import Lottie from "lottie-react";
-import PieChartDemo from "../widgets/PieChart";
+import PieChart from "../widgets/PieChart";
 import LineChartDemo from "../widgets/LineChart";
 import Boilerplate from "../components/Boilerplate";
+import MacrosChart from "../components/MacrosChart";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -69,23 +70,13 @@ export default function Home() {
               <h3>Your meals for today</h3>
               <p>Imagine some carousel with cards</p>
               <h3>Basic nutrition breakdown</h3>
-              <div className="flex mt-6 mb-10 justify-between">
-                <PieChartDemo></PieChartDemo>
-                <div className="w-1/2">
-                  <p className="bg-amber-400 p-4 rounded-lg text-white font-bold my-2">
-                    Total calories: 200
-                  </p>
-                  <p className="bg-purple-400 p-4 rounded-lg text-white font-bold my-2">
-                    Total protein: 50g
-                  </p>
-                  <p className="bg-blue-400 p-4 rounded-lg text-white font-bold my-2">
-                    Total fats: 50g
-                  </p>
-                  <p className="bg-green-500 p-4 rounded-lg text-white font-bold my-2">
-                    Total fats: 50g
-                  </p>
-                </div>
-              </div>
+              <MacrosChart
+                calories={200}
+                carbs={50}
+                fat={20}
+                protein={30}
+              ></MacrosChart>
+
               <h3>Building on your trends</h3>
               <div className="mt-6 mb-10">
                 <LineChartDemo></LineChartDemo>
