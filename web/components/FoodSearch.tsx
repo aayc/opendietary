@@ -8,6 +8,7 @@ import { NutritionSearchResult, searchFood } from "../utils/nutritionix";
 import SearchBar from "../widgets/SearchBar";
 import Spinner from "../widgets/Spinner";
 import useOnClickOutside from "use-onclickoutside";
+import DayPicker from "./DayPicker";
 
 type FoodSearchProps = {
   history?: JournalHistory;
@@ -22,7 +23,6 @@ type FoodSearchProps = {
 
 export default function FoodSearch(props: FoodSearchProps) {
   const [date, setDate] = useState(new Date());
-  const [showCalendar, setShowCalendar] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchResults, setSearchResults] = useState<NutritionSearchResult[] | undefined | null>([]);
@@ -32,9 +32,6 @@ export default function FoodSearch(props: FoodSearchProps) {
   const [undoTracking, setUndoTracking] = useState<{ [key: number]: string }>({});
   const [resultLimit, setResultLimit] = useState(10);
   const [resultsCollapsed, setResultsCollapsed] = useState(false);
-  const calendarRef = useRef<any>(null);
-
-  useOnClickOutside(calendarRef, () => setShowCalendar(false))
 
   const onSearch = async (query: string) => {
     if (query.length > 0) {
@@ -111,27 +108,7 @@ export default function FoodSearch(props: FoodSearchProps) {
                 onClick={() => setResultsCollapsed(!resultsCollapsed)}
               ></ChevronUp>
             </div>
-            <div className="relative" ref={calendarRef}>
-              <div
-                className={`transition duration-200 ease-in-out delay-150 cursor-pointer flex ${showCalendar ? "text-blue-500" : "hover:text-blue-500"}`}
-                onClick={() => setShowCalendar(!showCalendar)}
-              >
-                <p className="font-semibold">Recording for {moment(date).format("MMM D, YYYY")}</p> <Edit size={18} className="mt-1 ml-2"></Edit>
-              </div>
-              <AnimatePresence>
-                {showCalendar && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ ease: "easeOut", duration: 0.15 }}
-                    className="absolute right-0 mt-2 mr-4 bg-white rounded-lg shadow-lg"
-                  >
-                    <Calendar value={date} onChange={(e: any) => setDate(e.value)} inline />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+            <DayPicker className="mt-2" label={`Recording for ${moment(date).format("MMM D, YYYY")}`} value={date} onChange={setDate}></DayPicker>
           </div>
           {!resultsCollapsed &&
             searchResults.slice(0, resultLimit).map((result, index) => (
