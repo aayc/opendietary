@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "428240700645",
+    "firebase_url": "https://opendietary-default-rtdb.firebaseio.com",
+    "project_id": "opendietary",
+    "storage_bucket": "opendietary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:428240700645:android:d6d19cff9db5634944c00c",
+        "android_client_info": {
+          "package_name": "com.opendietary.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "428240700645-2prkp6qjv49h3qtms7kmbmfg6lvlu953.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlL7HZXL4FCZ9-is75wplJ3d8iEFZSqdQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "428240700645-2prkp6qjv49h3qtms7kmbmfg6lvlu953.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "428240700645-rnnqnmrvclqaedv2lj7o5bghkj980isu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.mobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
