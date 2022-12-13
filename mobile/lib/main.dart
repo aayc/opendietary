@@ -18,9 +18,7 @@ class OmniRobotics extends StatelessWidget {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return const HomePage(
-            title: 'hey',
-          );
+          return const HomePage();
         } else {
           return const LoginPage();
         }
